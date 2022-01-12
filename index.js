@@ -1,12 +1,16 @@
 const container = document.getElementsByClassName('container')[0];
 const dragArea = document.getElementsByClassName('dragArea')[0];
 const fileInp = document.getElementById('file');
+const extraText1 = document.querySelector('#extraText1');
+const extraText2 = document.querySelector('#extraText2');
 let file;
 //when items are dragged over to upload area
 function handleDragover(e){
     e.preventDefault();
     document.getElementById('uploadText').innerHTML = 'Please Release to upload';
     //console.log('file inside');
+    extraText1.innerHTML = '';
+    extraText2.innerHTML = '';
 }
 
 dragArea.addEventListener('dragover',handleDragover);
@@ -60,10 +64,20 @@ function displayFile(){
             newDiv.appendChild(newImg);
             dragArea.appendChild(newDiv);
             document.getElementById('uploadText').innerHTML = 'Uploaded!!';
+            extraText1.innerHTML = '';
+            extraText2.innerHTML = '';
         }
         fileReader.readAsDataURL(file);
     }else{
-        alert('Your file type is not supported YA DODO!!');
+        //alert('Your file type is not supported YA DODO!!');
+        let fileName = file.name;
+        let newDiv = document.createElement('div');
+            newDiv.classList.add('uploaded_image');
+            newDiv.innerHTML = '<i class="fas fa-5x fa-file-pdf"></i>';
+            dragArea.appendChild(newDiv);
+            document.getElementById('uploadText').innerHTML = `${fileName.toUpperCase()} Uploaded!!`;
+            extraText1.innerHTML = '';
+            extraText2.innerHTML = '';
     }
     removeHandler();
 }
@@ -74,3 +88,4 @@ function removeHandler(){
     dragArea.removeEventListener('dragleave',handleDragleave);
     dragArea.removeEventListener('drop',handleDrop);
 }
+
